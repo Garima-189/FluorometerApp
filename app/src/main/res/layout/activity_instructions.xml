@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context=".InstructionsActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:text="\n1. If you are using the application on your device for the first time, calibrate the device.
+\n\n2. After calibration, for getting the concentration, tap on the determine concentration button in the main activity.\n\n
+3. The Determine Concentration activity will open up. Then the button should open the Camera Activity, from where you can click a picture and determine the concentration of the solution using that picture"
+        />
+
+
+</LinearLayout>
+

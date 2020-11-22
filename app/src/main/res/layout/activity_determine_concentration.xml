@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context=".DetermineConcentrationActivity">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal">
+    <TextView
+        android:id="@+id/textLightIntensity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light intensity" />
+    <TextView
+        android:id="@+id/textIntensityVal"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="val" />
+
+    <TextView
+        android:id="@+id/textlux"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="lux" />
+
+
+
+  </LinearLayout>
+
+  <Button
+      android:id="@+id/button"
+      android:layout_width="match_parent"
+      android:layout_margin="20dp"
+      android:layout_height="wrap_content"
+      android:text="Determine concentration" />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal">
+    <TextView
+        android:id="@+id/textFluorideConcentration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fluoride Concentration" />
+
+    <TextView
+        android:id="@+id/textFluorideConcentrationVal"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="g/L" />
+
+
+
+  </LinearLayout>
+
+</LinearLayout>

@@ -7,21 +7,27 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.util.Size;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 import javax.security.auth.callback.Callback;
 
@@ -29,7 +35,9 @@ public class CameraActivity extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     public static final String ALLOW_KEY = "ALLOWED";
     public static final String CAMERA_PREF = "camera_pref";
-
+    public static final int REQUEST_IMAGE = 100;
+    Bitmap bitmap;
+    private Uri imageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,12 +139,9 @@ public class CameraActivity extends AppCompatActivity {
             case MY_PERMISSIONS_REQUEST_CAMERA: {
                 for (int i = 0, len = permissions.length; i < len; i++) {
                     String permission = permissions[i];
-
+                    Log.i("The permissions length",""+permissions.length);
                     if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        boolean
-                                showRationale =
-                                ActivityCompat.shouldShowRequestPermissionRationale(
-                                        this, permission);
+                        boolean showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
 
                         if (showRationale) {
                             showAlert();
@@ -150,6 +155,9 @@ public class CameraActivity extends AppCompatActivity {
                             saveToPreferences(CameraActivity.this, ALLOW_KEY, true);
                         }
                     }
+                    else{
+                        openCamera();
+                    }
                 }
             }
 
@@ -161,7 +169,7 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        onBackPressed();
+
     }
 
     public static void startInstalledAppDetailsActivity(final Activity context) {
@@ -181,9 +189,71 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     public void openCamera() {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivity(intent);
+        //Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        //startActivity(intent);
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+        // tell camera where to store the resulting picture
+        imageUri = getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // start camera, and wait for it to finish
+        startActivityForResult(intent, REQUEST_IMAGE);
 
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Log.i("Oncac:","Something");
+        if (resultCode == RESULT_OK)
+        {
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                Log.i("Bitmap data:","bitmap received with intensity " + getAverageColor());
+                Intent returnIntent=new Intent();
+                returnIntent.putExtra("intensity",getAverageColor());
+                setResult(Activity.RESULT_OK,returnIntent);
+
+
+            } catch (Exception e) {
+                Log.i("Bitmap data:","exception");
+                e.printStackTrace();
+                Intent returnIntent=new Intent();
+                setResult(Activity.RESULT_CANCELED,returnIntent);
+            }
+        }
+        else{
+            Toast.makeText(this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+        }
+
+        finish();
+    }
+
+    private double getAverageColor()
+    {
+        int redBucket = 0;
+        int greenBucket = 0;
+        int blueBucket = 0;
+        int pixelCount = 0;
+
+        for (int y = 0; y < bitmap.getHeight(); y++) {
+            for (int x = 0; x < bitmap.getWidth(); x++) {
+                int c = bitmap.getPixel(x, y);
+
+                pixelCount++;
+                redBucket += Color.red(c);
+                greenBucket += Color.green(c);
+                blueBucket += Color.blue(c);
+                // does alpha matter?
+            }
+        }
+
+        double averageColor = (redBucket+greenBucket+blueBucket)/(3*pixelCount);
+        return averageColor;
+    }
 }

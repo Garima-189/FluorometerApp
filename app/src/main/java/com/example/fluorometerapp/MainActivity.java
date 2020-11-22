@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements  View.OnClickListener{
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         Button camButton = findViewById(R.id.main_camera);
         detConcentrationButton.setOnClickListener(this);
         aboutButton.setOnClickListener(this);
-
+        camButton.setOnClickListener(this);
         instructionsButton.setOnClickListener(this);
         calibrationButton.setOnClickListener(this);
         //tagLocationInMapButton.setOnClickListener(this);

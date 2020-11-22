@@ -10,14 +10,26 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TableLayout
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Click a picture from the camera. Then click the corresponding button to the image you took to store the intensity before you take the next image."
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:stretchColumns="1,2,3"
 
-        app:layout_constraintBottom_toTopOf="@id/calibration_normalizeButton"
+        app:layout_constraintBottom_toTopOf="@id/calibration_cameraButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,11 +77,10 @@
                 android:inputType="numberDecimal"
                 android:text="0.0" />
 
-            <EditText
+            <Button
                 android:id="@+id/vd2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
                 android:text="0.0" />
 
             <TextView
@@ -79,6 +90,7 @@
                 android:inputType="numberDecimal"
                 android:layout_column="3"
                 android:text="0" />
+
         </TableRow>
 
         <TableRow
@@ -93,12 +105,10 @@
                 android:layout_column="1"
                 android:text="0.0" />
 
-            <EditText
+            <Button
                 android:id="@+id/vd3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:inputType="numberDecimal"
                 android:text="0.0" />
 
             <TextView
@@ -122,12 +132,10 @@
                 android:inputType="numberDecimal"
                 android:text="0.0" />
 
-            <EditText
+            <Button
                 android:id="@+id/vd4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:inputType="numberDecimal"
                 android:text="0.0" />
 
             <TextView
@@ -150,12 +158,10 @@
                 android:inputType="numberDecimal"
                 android:text="0.0" />
 
-            <EditText
+            <Button
                 android:id="@+id/vd5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:inputType="numberDecimal"
                 android:text="0.0" />
 
             <TextView
@@ -178,12 +184,10 @@
                 android:inputType="numberDecimal"
                 android:text="0.0" />
 
-            <EditText
+            <Button
                 android:id="@+id/vd1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:inputType="numberDecimal"
                 android:text="0.0" />
 
             <TextView
@@ -195,15 +199,15 @@
         </TableRow>
     </TableLayout>
 
-    <Button
-        android:id="@+id/calibration_normalizeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Normalize intensity"
-        app:layout_constraintBottom_toTopOf="@+id/calibration_plotCurveButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tableLayout"></Button>
+        <Button
+            android:id="@+id/calibration_cameraButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Camera"
+            app:layout_constraintBottom_toTopOf="@+id/calibration_plotCurveButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tableLayout"></Button>
 
     <Button
         android:id="@+id/calibration_plotCurveButton"
@@ -213,16 +217,16 @@
         app:layout_constraintBottom_toTopOf="@+id/calibration_regressionEquationButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calibration_normalizeButton" />
+        app:layout_constraintTop_toBottomOf="@id/calibration_cameraButton" />
 
-    <Button
-        android:id="@+id/calibration_regressionEquationButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Regression Equation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calibration_plotCurveButton" />
+        <Button
+            android:id="@+id/calibration_regressionEquationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Regression Equation - fit line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calibration_plotCurveButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

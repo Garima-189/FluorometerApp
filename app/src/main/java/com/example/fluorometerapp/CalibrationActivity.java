@@ -41,5 +41,9 @@ public class CalibrationActivity extends AppCompatActivity{
 
     }
 
+    public void onButtonClick(View view){
+        Button button=(Button)view;
+        button.setText("something");
+    }
 
 }

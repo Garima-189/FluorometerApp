@@ -45,9 +45,9 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        checkPermission(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                STORAGE_PERMISSION_CODE);
+        //checkPermission(
+         //       Manifest.permission.WRITE_EXTERNAL_STORAGE,
+          //      STORAGE_PERMISSION_CODE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (getFromPref(this, ALLOW_KEY)) {
                 showSettingsAlert();
@@ -63,7 +63,7 @@ public class CameraActivity extends AppCompatActivity {
                 } else {
                     // No explanation needed, we can request the permission.
                     ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.CAMERA},
+                            new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             MY_PERMISSIONS_REQUEST_CAMERA);
                 }
             }
@@ -85,7 +85,7 @@ public class CameraActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE);
         return (myPrefs.getBoolean(key, false));
     }
-    public void checkPermission(String permission, int requestCode)
+    /*public void checkPermission(String permission, int requestCode)
     {
         if (ContextCompat.checkSelfPermission(CameraActivity.this, permission)
                 == PackageManager.PERMISSION_DENIED) {
@@ -101,7 +101,7 @@ public class CameraActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT)
                     .show();
         }
-    }
+    }*/
     private void showAlert() {
         AlertDialog alertDialog = new AlertDialog.Builder(CameraActivity.this).create();
         alertDialog.setTitle("Alert");
@@ -156,14 +156,14 @@ public class CameraActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
+            boolean temp=false;
             if(MY_PERMISSIONS_REQUEST_CAMERA == requestCode) {
                 for (int i = 0, len = permissions.length; i < len; i++) {
                     String permission = permissions[i];
                     Log.i("The permissions length",""+permissions.length);
                     if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                         boolean showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
-
+                        temp=true;
                         if (showRationale) {
                             showAlert();
                         } else if (!showRationale) {
@@ -176,11 +176,13 @@ public class CameraActivity extends AppCompatActivity {
                             saveToPreferences(CameraActivity.this, ALLOW_KEY, true);
                         }
                     }
-                    else{
-                        openCamera();
-                    }
+
                 }
+                if (!temp)
+                    openCamera();
+
             }
+
         if(requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -196,6 +198,7 @@ public class CameraActivity extends AppCompatActivity {
                         .show();
             }
         }
+
     }
 
             // other 'case' lines to check for other
@@ -227,7 +230,6 @@ public class CameraActivity extends AppCompatActivity {
 
     public void openCamera() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivity(intent);
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
         values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
